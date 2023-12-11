@@ -44,3 +44,16 @@ for i in wznowienia(6,8):
     print(type(i))
     print(f'zwrócono wartość: {i}')
 print("_"*50)
+
+#przypadek 3
+
+def genret():
+    for i in range(27):
+        if i==14:
+            print("przerywamy...")
+            return
+        else:
+            yield i
+
+for t in genret():
+    print(t)
