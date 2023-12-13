@@ -16,7 +16,7 @@ def brak(self):
 class SednoOdpowiedzi(type):
     def __init__(cls,clsname,bases,attrs):
         if required:
-            if clsname == "Kopernik":
+            if attrs.get('n'):
                 cls.odpowiedz = odpowiedz_nowa
             else:
                 cls.odpowiedz = odpowiedz
@@ -33,7 +33,12 @@ class SwTomasz(metaclass=SednoOdpowiedzi):
     pass
 
 class Kopernik(metaclass=SednoOdpowiedzi):
-    pass
+    # def odpowiedz(self):
+    #     return "Nie i koniec!"
+    n = True
+
+class Einstein(metaclass=SednoOdpowiedzi):
+    n = True
 
 fill1 = Arystoteles()
 print(f'Filozof {fill1.__class__.__name__} twierdzi: {fill1.odpowiedz()}')
@@ -49,5 +54,10 @@ print(f'Filozof {fill3.__class__.__name__} twierdzi: {fill3.odpowiedz()}')
 fill4 = Kopernik()
 print(f'Filozof {fill4.__class__.__name__} twierdzi: {fill4.odpowiedz()}')
 
+
+fill5 = Einstein()
+print(f'Filozof {fill5.__class__.__name__} twierdzi: {fill5.odpowiedz()}')
+
 #Skonstruuj rozwiązanie pozwalające Kopernikowi na wypowiedź: Nie! Ziemia jest elipsoidą!
 #Pozostaw aktualną konstrukcję.
+#Przebuduj metaklasę tak aby uwzględniała dowolnego nowego filozofa nowej ery...
