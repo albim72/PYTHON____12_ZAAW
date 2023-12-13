@@ -32,8 +32,8 @@ class Timer:
 
     def __exit__(self, exc_type, exc_val, exc_tb):
         self.stop()
-        
-        
+
+
 def timefunc(fn,*args,**kwargs):
     def fncomposite(*args,**kwargs):
         timer = Timer()
@@ -53,3 +53,28 @@ class Timed(type):
                 attrs[name] = timefunc(value)
 
         return super(Timed,cls).__new__(cls,clsname,bases,attrs)
+
+class Oblicz(metaclass=Timed):
+    def multi(a,b):
+        p=a*b+2
+        print(p)
+        return p
+
+Oblicz.multi(6,7)
+
+class Info(metaclass=Timed):
+    def intro(self):
+        print('to jest ważna informacja!')
+
+i = Info()
+i.intro()
+
+def divide(a,b):
+    wynik = a/b + 3
+    print(wynik)
+    return wynik
+
+div = timefunc(divide)
+div(5,8)
+
+print(divide(4,8))
