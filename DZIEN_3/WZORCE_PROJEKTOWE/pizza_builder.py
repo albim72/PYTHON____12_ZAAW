@@ -52,6 +52,7 @@ class MargaritaBuilder:
         print(f'baking Your Margarita for {self.baking_time} s')
         time.sleep(self.baking_time)
         print('Your Margarita is ready!!!')
+        self.progress = PizzaProgress.ready
 
 
 class CreamyBaconBuilder:
@@ -90,12 +91,13 @@ class CreamyBaconBuilder:
         print(f'baking Your Creamy Bacon for {self.baking_time} s')
         time.sleep(self.baking_time)
         print('Your Creamy Bacon is ready!!!')
-        
-        
+        self.progress = PizzaProgress.ready
+
+
 class Waiter:
     def __init__(self):
         self.builder = None
-        
+
     def construct_pizza(self,builder):
         self.builder = builder
         steps = (builder.prepare_dough,
@@ -103,11 +105,11 @@ class Waiter:
                  builder.add_topping,
                  builder.bake)
         [step() for step in steps]
-        
+
     @property
     def pizza(self):
         return self.builder.pizza
-    
+
 
 def validate_style(builders):
     try:
@@ -118,3 +120,23 @@ def validate_style(builders):
         error_msg = 'Sorry, only [m]argarita or [c]reamy bacon!'
         return (False,error_msg)
     return (True,builder)
+
+def main():
+    builders = dict(m=MargaritaBuilder,c=CreamyBaconBuilder)
+    valid_input = False
+    while not valid_input:
+        valid_input,builder = validate_style(builders)
+        if valid_input == False:
+            print(builder)
+
+    print("\n")
+    waiter = Waiter()
+    waiter.construct_pizza(builder)
+    pizza = waiter.pizza
+
+    print("\n")
+
+    print(f'Enjoy Your {pizza}!')
+
+if __name__ == '__main__':
+    main()
