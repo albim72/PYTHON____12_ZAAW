@@ -71,11 +71,11 @@ class Boiler:
         return f'boiler temperature: {self.temperature} C'
 
     def increase_temperature(self,amount):
-        print(f"increasing the boiler's temperature ny {amount} degress")
+        print(f"increasing the boiler's temperature by {amount} degress")
         self.temperature += amount
 
     def decrease_temperature(self,amount):
-        print(f"decreasing the boiler's temperature ny {amount} degress")
+        print(f"decreasing the boiler's temperature by {amount} degress")
         self.temperature -= amount
 
 
@@ -87,11 +87,11 @@ class Fridge:
         return f'fridge temperature: {self.temperature} C'
 
     def increase_temperature(self, amount):
-        print(f"increasing the fridge's temperature ny {amount} degress")
+        print(f"increasing the fridge's temperature by {amount} degress")
         self.temperature += amount
 
     def decrease_temperature(self, amount):
-        print(f"decreasing the fridges's temperature ny {amount} degress")
+        print(f"decreasing the fridges's temperature by {amount} degress")
         self.temperature -= amount
 
 
@@ -111,12 +111,14 @@ def main():
     fridge = Fridge()
 
 
-    test = ('open -> gate',
+    tests = ('open -> gate',
             'close -> garage',
             'turn on -> air condition',
             'turn off -> heating',
             'increase -> boiler temperature -> 7 degrees',
-            'decrease -> fridge temperature -> 2 degrees')
+            'decrease -> fridge temperature -> 2 degrees',
+            'decrease -> fridge temperature -> 12 degrees',
+            'decrease -> fridge temperature -> three degrees')
 
     open_actions = {
         'gate':gate.open,
@@ -137,3 +139,29 @@ def main():
         'fridge temperature': fridge.decrease_temperature
 
     }
+
+    for t in tests:
+        if len(event.parseString(t)) == 2:
+            cmd,dev = event.parseString(t)
+            cmd_str,dev_str = ' '.join(cmd), ' '.join(dev)
+            if 'open' in cmd_str or 'turn on' in cmd_str:
+                open_actions[dev_str]()
+            elif 'close' in cmd_str or 'turn off' in cmd_str:
+                close_actions[dev_str]()
+        elif len(event.parseString(t)) == 3:
+            cmd,dev,arg = event.parseString(t)
+            cmd_str = ' '.join(cmd)
+            dev_str = ' '.join(dev)
+            arg_str = ' '.join(arg)
+            num_arg = 0
+            try:
+                num_arg = int(arg_str.split()[0])
+            except ValueError as err:
+                print(f'expected number but got {arg_str[:]}')
+            if 'increase' in cmd_str and num_arg > 0:
+                open_actions[dev_str](num_arg)
+            elif 'decrease' in cmd_str and num_arg > 0:
+                close_actions[dev_str](num_arg)
+
+if __name__ == '__main__':
+    main()
