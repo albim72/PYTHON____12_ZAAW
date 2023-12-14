@@ -8,11 +8,11 @@ def create_table(conn,create_table_sql):
         c.execute(create_table_sql)
     except Error as e:
         print(e)
-        
-        
+
+
 def cr():
-    database = r"C:\sqlite\db\mojabaza12.db"
-    
+    database = r"sql\mojabaza12.db"
+
     sql_create_projects_table = """
         CREATE TABLE IF NOT EXISTS projects(
             id integer PRIMARY KEY,
