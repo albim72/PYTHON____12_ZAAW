@@ -117,7 +117,7 @@ def main():
             'turn off -> heating',
             'increase -> boiler temperature -> 7 degrees',
             'decrease -> fridge temperature -> 2 degrees',
-            'decrease -> fridge temperature -> 12 degrees',
+            'decrease -> fridge temperature -> 3 degrees',
             'decrease -> fridge temperature -> three degrees')
 
     open_actions = {
